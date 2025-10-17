@@ -12,7 +12,11 @@ class Rig:
         self.__name = name
         self.__damage = damage
         self.__is_broken = False
-        self.__storage = ['Data Spike', 'Data Spike', 'Removable Drive'] ##Could this be implemented as a dictionary?
+        self.__storage = {'CryptoToken': 0
+                          'Data Spike': 2,
+                          'Removable Drive': 1,
+                          'Security Chip': 0,
+                          'Hardware Patch': 0}
         self.__upgrade_level = 0
 
     def repair(self):
