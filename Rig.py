@@ -6,7 +6,7 @@ ID: reidy015@mymail.unisa.edu.au
 Username: reidy015
 This is my own work as defined by the University's Academic Misconduct Policy.
 """
-
+import Hacker
 class Rig:
     def __init__(self, name, damage, is_broken, storage, upgrade_level):
         self.__name = name
@@ -20,6 +20,16 @@ class Rig:
         self.__upgrade_level = 0
 
     def repair(self):
+        token_in_storage = self.get_storage()
+        token_in_inv = Hacker.get_inventory()
+
+
+        if 'CryptoToken' in token_in_storage and token_in_storage['CryptoToken'] > 0:
+            token_in_storage['CryptoToken'] -= 1
+
+        elif 'CryptoToken' in token_in_inv and token_in_inv['CryptoToken'] > 0:
+            token_in_inv['CryptoToken'] -= 1
+        ## Need to structure how I want to process damage. Do Ido damage type repair/damage then play values?
 
     def upgrade(self):
 
@@ -41,3 +51,7 @@ class Rig:
         return self.__storage
     def get_upgrade_level(self):
         return self.__upgrade_level
+
+    def set_damage(self, damage):
+        self.__damage = damage
+    def set_is_broken(self, is_broken):
