@@ -14,6 +14,19 @@ class Asset:
         self.__is_encrypted = False
         self.__container = container
 
+    def __str__(self):
+        name = str(self.__name)
+        description = str(self.__description)
+        output = ''
+
+        if self.__is_encrypted == True:
+            output =  f'{name}: {description} (encrypted)'
+
+        else:
+            output = f'{name}: {description}'
+
+        return output
+
     def move_asset(self):
 
     def get_name(self):
