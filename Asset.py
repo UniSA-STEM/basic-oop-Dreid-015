@@ -1,8 +1,25 @@
 """
 File: Asset.py
 Description: <A brief description of this Python module.>
-Author: <full name>
-ID: <student_id>
-Username: <username>
+Author: Dyllan Reid
+ID: reidy015@mymail.unisa.edu.au
+Username: reidy015
 This is my own work as defined by the University's Academic Misconduct Policy.
 """
+
+class Asset:
+    def __init__(self, name, description, is_encrypted, container):
+        self.__name = name
+        self.__description = description
+        self.__is_encrypted = False
+        self.__container = container
+
+    def move_asset(self):
+
+    def get_name(self):
+        return self.__name
+    def get_description(self):
+        return self.__description
+    def get_is_encrypted(self):
+        return self.__is_encrypted
+
