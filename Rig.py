@@ -74,7 +74,7 @@ class Rig:
 
         elif 'CryptoToken' in token_in_storage and token_in_storage['CryptoToken'] > 0:
             token_in_storage['CryptoToken'] -= 1
-            self.__damage == 0  ##reworking this, got headducks. Maybe revisit in the morning
+            self.__damage = 0
 
         # elif 'CryptoToken' in token_in_inv and token_in_inv['CryptoToken'] > 0:
         #     token_in_inv['CryptoToken'] -= 1
