@@ -7,6 +7,8 @@ Username: reidy015
 This is my own work as defined by the University's Academic Misconduct Policy.
 """
 from Hacker import Hacker
+import random
+
 class Rig:
     def __init__(self, name):
         self.__name = name
@@ -94,7 +96,14 @@ class Rig:
             self.__owner.set_storage('Hardware Patch', 1, 'spend')
             self.set_upgrade_level(1)
 
-    #def generate_asset(self):
+    def generate_asset(self):
+        asset_nums = ['CryptoToken', 'Data Spike', 'Removable Drive', 'Security Chip', 'Hardware Patch']
+        random_num = random.randint(1, 4)
+        random_asset = asset_nums[random_num]
+
+        self.__storage[random_asset] += 1
+
+        print(f'{random_asset}has been generated and stored in this rig')
 
     def get_name(self):
         return self.__name
