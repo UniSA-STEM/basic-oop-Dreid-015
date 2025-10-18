@@ -39,7 +39,7 @@ class Rig:
         patch_in_inv = self.__owner.get_inventory()
 
         if 'Hardware Patch' in patch_in_storage and patch_in_storage['Hardware Patch'] > 0:
-            self.set_storage('Hardware Patch', 1, 'spend')['Hardware Patch'] -= 1
+            self.set_storage('Hardware Patch', 1, 'spend')
             self.set_upgrade_level(1)
 
         elif 'Hardware Patch' in patch_in_inv and patch_in_inv['Hardware Patch'] > 0:
@@ -65,18 +65,19 @@ class Rig:
         ## Big note here is that this function is designed to handle both damaging and repairing a rig
         ## change should only ever be set as 'damage', or 'repair'. This is used in comparisons to determine functionality
 
-        if self.__damage == 0:
-            return 'No repair is needed'
-
-        elif change == 'damage':
+        if change == 'damage':
             self.__damage += amount
 
             if self.__damage > self.__upgrade_level + 2:
                 self.__is_broken = True
 
+        elif change == 'repair' and self.__damage == 0:
+            return 'No repair is needed'
+
         elif change == 'repair':
             self.__damage = 0
             self.__is_broken = False
+
     def set_upgrade_level(self, change):
         self.__upgrade_level += change
     def set_storage(self, item, change, spend_or_create):
