@@ -20,6 +20,31 @@ class Rig:
         self.__upgrade_level = 0
         self.__owner = owner
 
+    def __str__(self):
+        counter = 0
+
+        output = f'Rig: {self.__name}\n'
+        output += f'Condition: {self.__condition}\n'
+        output += f'Upgrade Level: {self.__upgrade_level}\n'
+
+        for item in self.__storage:
+
+            if self.__storage[item] > 0:
+                counter += 1
+
+        if counter > 0:
+            output += f'Stored Assets:\n'
+
+        elif counter == 0:
+            output += f'Nothing is stored in this rig'
+
+        for item in self.__storage:
+
+            if self.__storage[item] > 0:
+                output += f'{item}: {self.__storage[item]}\n'
+
+        return output
+
     def repair(self):
         token_in_storage = self.get_storage()
         token_in_inv = self.__owner.get_inventory()
@@ -48,9 +73,9 @@ class Rig:
 
     def generate_asset(self):
 
-    def current_condition(self):
+    #def current_condition(self):
 
-    def get_name(self):
+    #def get_name(self):
         return self.__name
     def get_damage(self):
         return self.__damage
