@@ -9,3 +9,5 @@ This is my own work as defined by the University's Academic Misconduct Policy.
 import Rig
 
 test_rig = Rig.Rig('1337 H4x0r 130><', 'Zero Cool')
+
+print(test_rig)

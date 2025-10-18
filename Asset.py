@@ -7,32 +7,32 @@ Username: reidy015
 This is my own work as defined by the University's Academic Misconduct Policy.
 """
 
-class Asset:
-    def __init__(self, name, description, is_encrypted, container):
-        self.__name = name
-        self.__description = description
-        self.__is_encrypted = False
-        self.__container = container
-
-    def __str__(self):
-        name = str(self.__name)
-        description = str(self.__description)
-        output = ''
-
-        if self.__is_encrypted == True:
-            output =  f'{name}: {description} (encrypted)'
-
-        else:
-            output = f'{name}: {description}'
-
-        return output
-
-    def move_asset(self):
-
-    def get_name(self):
-        return self.__name
-    def get_description(self):
-        return self.__description
-    def get_is_encrypted(self):
-        return self.__is_encrypted
+# class Asset:
+#     def __init__(self, name, description, is_encrypted, container):
+#         self.__name = name
+#         self.__description = description
+#         self.__is_encrypted = False
+#         self.__container = container
+#
+#     def __str__(self):
+#         name = str(self.__name)
+#         description = str(self.__description)
+#         output = ''
+#
+#         if self.__is_encrypted == True:
+#             output =  f'{name}: {description} (encrypted)'
+#
+#         else:
+#             output = f'{name}: {description}'
+#
+#         return output
+#
+#     def move_asset(self):
+#
+#     def get_name(self):
+#         return self.__name
+#     def get_description(self):
+#         return self.__description
+#     def get_is_encrypted(self):
+#         return self.__is_encrypted
 

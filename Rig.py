@@ -22,9 +22,9 @@ class Rig:
 
     def __str__(self):
         counter = 0
-
+        condition = condition()
         output = f'Rig: {self.__name}\n'
-        output += f'Condition: {self.__condition}\n'
+        output += f'Condition: {condition}\n'
         output += f'Upgrade Level: {self.__upgrade_level}\n'
 
         for item in self.__storage:
@@ -44,6 +44,22 @@ class Rig:
                 output += f'{item}: {self.__storage[item]}\n'
 
         return output
+
+    def condition(self):
+        output = ''
+        max_hp = (self.get_upgrade_level() * 2) + 2
+        level = self.get_upgrade_level()
+
+        if self.get_damage() == 0:
+            output += f'Pristine'
+
+        elif self.get_damage() > 0 and self.get_damage() < max_hp:
+            output += f'Damaged'
+
+        else:
+            output += f'Broken'
+
+        output += f'( {level})'
 
     def repair(self):
         token_in_storage = self.get_storage()
