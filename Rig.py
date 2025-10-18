@@ -8,11 +8,11 @@ This is my own work as defined by the University's Academic Misconduct Policy.
 """
 import Hacker
 class Rig:
-    def __init__(self, name, damage, is_broken, storage, upgrade_level):
+    def __init__(self, name):
         self.__name = name
-        self.__damage = damage
+        self.__damage = 0
         self.__is_broken = False
-        self.__storage = {'CryptoToken': 0
+        self.__storage = {'CryptoToken': 0,
                           'Data Spike': 2,
                           'Removable Drive': 1,
                           'Security Chip': 0,
