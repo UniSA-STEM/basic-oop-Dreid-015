@@ -25,10 +25,11 @@ class Rig:
 
         if 'CryptoToken' in token_in_storage and token_in_storage['CryptoToken'] > 0:
             token_in_storage['CryptoToken'] -= 1
+            self.set_damage('repair')
 
         elif 'CryptoToken' in token_in_inv and token_in_inv['CryptoToken'] > 0:
             token_in_inv['CryptoToken'] -= 1
-        ## Need to structure how I want to process damage. Do Ido damage type repair/damage then play values?
+            self.set_damage('repair')
 
     def upgrade(self):
         ## Hackers can upgrade their rig using a Hardware Patch. This increases the rig’s upgrade level,
@@ -38,8 +39,6 @@ class Rig:
     def generate_asset(self):
 
     def current_condition(self):
-
-
 
     def get_name(self):
         return self.__name
