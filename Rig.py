@@ -23,7 +23,6 @@ class Rig:
         token_in_storage = self.get_storage()
         token_in_inv = Hacker.get_inventory()
 
-
         if 'CryptoToken' in token_in_storage and token_in_storage['CryptoToken'] > 0:
             token_in_storage['CryptoToken'] -= 1
 
@@ -32,8 +31,9 @@ class Rig:
         ## Need to structure how I want to process damage. Do Ido damage type repair/damage then play values?
 
     def upgrade(self):
-
-    def take_damage(self, damage):
+        ## Hackers can upgrade their rig using a Hardware Patch. This increases the rig’s upgrade level,
+        ## which improves storage size and reduces damage taken in batles. Upgrades require a rig and
+        ## a Hardware Patch in inventory.
 
     def generate_asset(self):
 
@@ -52,6 +52,18 @@ class Rig:
     def get_upgrade_level(self):
         return self.__upgrade_level
 
-    def set_damage(self, damage):
-        self.__damage = damage
+    def set_damage(self, change, amount):
+        ## Big note here is that this function is designed to handle both damaging and repairing a rig
+        ## change should only ever be set as 'damage', or 'repair'. This is used in comparisons to determine functionality
+
+        if change == 'damage':
+            self.__damage += amount
+
+            if self.__damage > self.__upgrade_level + 2:
+                self.__is_broken = True
+
+        elif change == 'repair':
+            self.__damage = 0
+            self.__is_broken = False
+
     def set_is_broken(self, is_broken):
