@@ -67,9 +67,9 @@ class Rig:
         output += f' (Level {level})'
         return output
 
-    def repair(self):
+    def repair(self, hacker):
         token_in_storage = self.get_storage()
-        #token_in_inv = Hacker.get_inventory(Hacker)
+        token_in_inv = hacker.get_inventory(hacker)
 
         if self.get_damage() == 0:
             print('No repair required')
@@ -78,9 +78,9 @@ class Rig:
             token_in_storage['CryptoToken'] -= 1
             self.__damage = 0
 
-        # elif 'CryptoToken' in token_in_inv and token_in_inv['CryptoToken'] > 0:
-        #     token_in_inv['CryptoToken'] -= 1
-        #     self.set_damage('repair')
+        elif 'CryptoToken' in token_in_inv and token_in_inv['CryptoToken'] > 0:
+             token_in_inv['CryptoToken'] -= 1
+             self.__damage = 0
 
     def upgrade(self):
         # This and the repair function use different methodology to update the hacker inventories.
