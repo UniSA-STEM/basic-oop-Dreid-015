@@ -38,12 +38,12 @@ class Rig:
         patch_in_storage = self.get_storage()
         patch_in_inv = self.__owner.get_inventory()
 
-        if 'Hardware Patch' in patch_in_storage and patch_in_inv['Hardware Patch'] > 0:
+        if 'Hardware Patch' in patch_in_storage and patch_in_storage['Hardware Patch'] > 0:
             self.set_storage('Hardware Patch', 1, 'spend')['Hardware Patch'] -= 1
             self.set_upgrade_level(1)
 
         elif 'Hardware Patch' in patch_in_inv and patch_in_inv['Hardware Patch'] > 0:
-            self.set_storage('Hardware Patch', 1, 'spend')
+            self.__owner.set_storage('Hardware Patch', 1, 'spend')
             self.set_upgrade_level(1)
 
     def generate_asset(self):
