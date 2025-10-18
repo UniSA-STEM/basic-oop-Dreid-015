@@ -55,7 +55,10 @@ class Rig:
         ## Big note here is that this function is designed to handle both damaging and repairing a rig
         ## change should only ever be set as 'damage', or 'repair'. This is used in comparisons to determine functionality
 
-        if change == 'damage':
+        if self.__damage == 0:
+            return 'No repair is needed'
+
+        elif change == 'damage':
             self.__damage += amount
 
             if self.__damage > self.__upgrade_level + 2:
@@ -64,5 +67,3 @@ class Rig:
         elif change == 'repair':
             self.__damage = 0
             self.__is_broken = False
-
-    def set_is_broken(self, is_broken):
