@@ -8,21 +8,21 @@ This is my own work as defined by the University's Academic Misconduct Policy.
 """
 from Hacker import Hacker
 class Rig:
-    def __init__(self, name, owner):
+    def __init__(self, name):
         self.__name = name
         self.__damage = 0
         self.__is_broken = False
-        self.__storage = {'CryptoToken': 0,
+        self.__storage = {'CryptoToken': 1,
                           'Data Spike': 2,
                           'Removable Drive': 1,
                           'Security Chip': 0,
                           'Hardware Patch': 0}
         self.__upgrade_level = 0
-        self.__owner = owner
 
     def __str__(self):
         counter = 0
-        condition = condition()
+        condition = self.condition()
+
         output = f'Rig: {self.__name}\n'
         output += f'Condition: {condition}\n'
         output += f'Upgrade Level: {self.__upgrade_level}\n'
@@ -33,6 +33,7 @@ class Rig:
                 counter += 1
 
         if counter > 0:
+            output += '\n'
             output += f'Stored Assets:\n'
 
         elif counter == 0:
@@ -42,6 +43,8 @@ class Rig:
 
             if self.__storage[item] > 0:
                 output += f'{item}: {self.__storage[item]}\n'
+
+        output += '*********************************'
 
         return output
 
@@ -59,25 +62,29 @@ class Rig:
         else:
             output += f'Broken'
 
-        output += f'( {level})'
+        output += f' (Level {level})'
+        return output
 
     def repair(self):
         token_in_storage = self.get_storage()
-        token_in_inv = self.__owner.get_inventory()
+        #token_in_inv = Hacker.get_inventory(Hacker)
 
-        if 'CryptoToken' in token_in_storage and token_in_storage['CryptoToken'] > 0:
+        if self.get_damage() == 0:
+            print('No repair required')
+
+        elif 'CryptoToken' in token_in_storage and token_in_storage['CryptoToken'] > 0:
             token_in_storage['CryptoToken'] -= 1
-            self.set_damage('repair')
+            self.__damage == 0  ##reworking this, got headducks. Maybe revisit in the morning
 
-        elif 'CryptoToken' in token_in_inv and token_in_inv['CryptoToken'] > 0:
-            token_in_inv['CryptoToken'] -= 1
-            self.set_damage('repair')
+        # elif 'CryptoToken' in token_in_inv and token_in_inv['CryptoToken'] > 0:
+        #     token_in_inv['CryptoToken'] -= 1
+        #     self.set_damage('repair')
 
     def upgrade(self):
         # This and the repair function use different methodology to update the hacker inventories.
         # Need to confirm which method works, and if both do which I prefer
         patch_in_storage = self.get_storage()
-        patch_in_inv = self.__owner.get_inventory()
+        patch_in_inv = Hacker.get_inventory()
 
         if 'Hardware Patch' in patch_in_storage and patch_in_storage['Hardware Patch'] > 0:
             self.set_storage('Hardware Patch', 1, 'spend')
@@ -87,11 +94,9 @@ class Rig:
             self.__owner.set_storage('Hardware Patch', 1, 'spend')
             self.set_upgrade_level(1)
 
-    def generate_asset(self):
+    #def generate_asset(self):
 
-    #def current_condition(self):
-
-    #def get_name(self):
+    def get_name(self):
         return self.__name
     def get_damage(self):
         return self.__damage
@@ -102,23 +107,11 @@ class Rig:
     def get_upgrade_level(self):
         return self.__upgrade_level
 
-    def set_damage(self, change, amount):
-        ## Big note here is that this function is designed to handle both damaging and repairing a rig
-        ## change should only ever be set as 'damage', or 'repair'. This is used in comparisons to determine functionality
-
-        if change == 'damage':
+    def set_damage(self, amount):
             self.__damage += amount
 
-            if self.__damage > self.__upgrade_level + 2:
+            if self.__damage > (self.__upgrade_level * 2) + 2:
                 self.__is_broken = True
-
-        elif change == 'repair' and self.__damage == 0:
-            return 'No repair is needed'
-
-        elif change == 'repair':
-            self.__damage = 0
-            self.__is_broken = False
-
     def set_upgrade_level(self, change):
         self.__upgrade_level += change
     def set_storage(self, item, change, spend_or_create):

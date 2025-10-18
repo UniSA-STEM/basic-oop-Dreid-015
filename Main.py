@@ -8,6 +8,10 @@ This is my own work as defined by the University's Academic Misconduct Policy.
 """
 import Rig
 
-test_rig = Rig.Rig('1337 H4x0r 130><', 'Zero Cool')
+test_rig = Rig.Rig('1337 H4x0r 130><')
 
+print(test_rig)
+test_rig.set_damage('damage', 2)
+print(test_rig)
+test_rig.repair()
 print(test_rig)
