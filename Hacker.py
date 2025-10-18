@@ -6,9 +6,9 @@ ID: reidy015@mymail.unisa.edu.au
 Username: reidy015
 This is my own work as defined by the University's Academic Misconduct Policy.
 """
-
+import Rig
 class Hacker:
-    def __init__(self, name, inventory, trace_level, exposed):
+    def __init__(self, name):
         self.__name = name
         self.__inventory = {'CryptoToken': 1,
                           'Data Spike': 0,
@@ -16,18 +16,31 @@ class Hacker:
                           'Security Chip': 0,
                           'Hardware Patch': 0,
                           'Rig': False}
-        self.__trace_level = trace_level
-        self.__exposed = exposed
+        self.__trace_level = 0
+        self.__exposed = False
 
-    def acquire_rig(self):
+    def acquire_rig(self, rig_name):
         inventory = self.get_inventory()
         rig_status = inventory['Rig']
 
         if rig_status == False and inventory['CryptoToken'] > 0:
             self.set_inventory('Rig', True, 'create')
             self.set_inventory('CryptoToken', 1, 'spend')
+            created_rig = Rig.Rig(rig_name)
+            print('Rig acquired.')
 
-    # def data_spike(self):
+        elif rig_status == True:
+            print("Hackers can only have 1 rig")
+
+        elif inventory['CryptoToken'] > 0:
+            print('No CryptoToken, No rig.')
+
+        return created_rig
+
+    # def data_spike(self, target):
+    #     rig_inventory =
+    #
+    #     if self.__
 
     # def extract_assets(self):
 

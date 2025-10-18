@@ -82,18 +82,16 @@ class Rig:
              token_in_inv['CryptoToken'] -= 1
              self.__damage = 0
 
-    def upgrade(self):
-        # This and the repair function use different methodology to update the hacker inventories.
-        # Need to confirm which method works, and if both do which I prefer
+    def upgrade(self, hacker):
         patch_in_storage = self.get_storage()
-        patch_in_inv = Hacker.get_inventory()
+        patch_in_inv = hacker.get_inventory(hacker)
 
         if 'Hardware Patch' in patch_in_storage and patch_in_storage['Hardware Patch'] > 0:
             self.set_storage('Hardware Patch', 1, 'spend')
             self.set_upgrade_level(1)
 
         elif 'Hardware Patch' in patch_in_inv and patch_in_inv['Hardware Patch'] > 0:
-            self.__owner.set_storage('Hardware Patch', 1, 'spend')
+            hacker.set_inventory('Hardware Patch', 1, 'spend')
             self.set_upgrade_level(1)
 
     def generate_asset(self):
