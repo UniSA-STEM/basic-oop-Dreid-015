@@ -32,7 +32,7 @@ class Hacker:
     # def extract_assets(self):
     #
     # def encrypt_assets(self):
-
+    # Ensure to add any encrypted items to the Rig.assets list with the _encrypted suffix
     # def upgrade_rig(self):
     #
     # def inv_scan(self):
@@ -47,7 +47,7 @@ class Hacker:
         return self
 
     def set_inventory(self, item, change, spend_or_create):
-        if change == True or change == False:
+        if change == True or change == False:   # Done to manage the has_rig entry in the inventory dict
             self.__inventory[item] = change
 
         elif spend_or_create == 'spend':
