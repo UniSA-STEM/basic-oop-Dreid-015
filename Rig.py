@@ -6,9 +6,9 @@ ID: reidy015@mymail.unisa.edu.au
 Username: reidy015
 This is my own work as defined by the University's Academic Misconduct Policy.
 """
-import Hacker
+from Hacker import Hacker
 class Rig:
-    def __init__(self, name):
+    def __init__(self, name, owner):
         self.__name = name
         self.__damage = 0
         self.__is_broken = False
@@ -18,10 +18,11 @@ class Rig:
                           'Security Chip': 0,
                           'Hardware Patch': 0}
         self.__upgrade_level = 0
+        self.__owner = owner
 
     def repair(self):
         token_in_storage = self.get_storage()
-        token_in_inv = Hacker.get_inventory()
+        token_in_inv = self.__owner.get_inventory()
 
         if 'CryptoToken' in token_in_storage and token_in_storage['CryptoToken'] > 0:
             token_in_storage['CryptoToken'] -= 1
@@ -32,9 +33,18 @@ class Rig:
             self.set_damage('repair')
 
     def upgrade(self):
-        ## Hackers can upgrade their rig using a Hardware Patch. This increases the rig’s upgrade level,
-        ## which improves storage size and reduces damage taken in batles. Upgrades require a rig and
-        ## a Hardware Patch in inventory.
+        # This and the repair function use different methodology to update the hacker inventories.
+        # Need to confirm which method works, and if both do which I prefer
+        patch_in_storage = self.get_storage()
+        patch_in_inv = self.__owner.get_inventory()
+
+        if 'Hardware Patch' in patch_in_storage and patch_in_inv['Hardware Patch'] > 0:
+            self.set_storage('Hardware Patch', 1, 'spend')['Hardware Patch'] -= 1
+            self.set_upgrade_level(1)
+
+        elif 'Hardware Patch' in patch_in_inv and patch_in_inv['Hardware Patch'] > 0:
+            self.set_storage('Hardware Patch', 1, 'spend')
+            self.set_upgrade_level(1)
 
     def generate_asset(self):
 
@@ -67,3 +77,11 @@ class Rig:
         elif change == 'repair':
             self.__damage = 0
             self.__is_broken = False
+    def set_upgrade_level(self, change):
+        self.__upgrade_level += change
+    def set_storage(self, item, change, spend_or_create):
+        if spend_or_create == 'spend':
+            self.__storage[item] -= change
+
+        elif spend_or_create == 'create':
+            self.__storage[item] += change
