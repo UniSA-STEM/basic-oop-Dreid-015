@@ -44,6 +44,7 @@ class Hacker:
             source.set_storage('Data Spike', 1, 'spend')
             target.set_damage(damage)
             self.set_trace_level(1)
+
             result.append(f'Data Spike from {source.get_name()} has done {damage} to {target.get_name()}.\n')
             result.append(f'{target} has taken {target.get_damage} damage.\n')
 
