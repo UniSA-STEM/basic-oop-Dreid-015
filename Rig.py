@@ -6,7 +6,7 @@ ID: reidy015@mymail.unisa.edu.au
 Username: reidy015
 This is my own work as defined by the University's Academic Misconduct Policy.
 """
-from Hacker import Hacker
+import Hacker
 import random
 
 class Rig:
@@ -19,8 +19,14 @@ class Rig:
                           'Removable Drive': 1,
                           'Security Chip': 0,
                           'Hardware Patch': 0}
+        self.__encrypted_assets = { 'CryptoToken': 0,
+                                    'Data Spike': 0,
+                                    'Removable Drive': 0,
+                                    'Security Chip': 0,
+                                    'Hardware Patch': 0}
         self.__upgrade_level = 0
         self.__max_hp = (self.get_upgrade_level() * 2) + 2
+        self.__capacity = (self.get_upgrade_level() * 2) + 3
 
     def __str__(self):
         counter = 0
@@ -102,7 +108,7 @@ class Rig:
 
         self.__storage[random_asset] += 1
 
-        print(f'{random_asset}has been generated and stored in this rig')
+        print(f'{random_asset} has been generated and stored in this rig')
 
     def get_name(self):
         return self.__name
@@ -116,6 +122,8 @@ class Rig:
         return int(self.__upgrade_level)
     def get_max_hp(self):
         return self.__max_hp
+    def get_capacity(self):
+        return self.__capacity
 
     def set_damage(self, amount):
             self.__damage += amount
