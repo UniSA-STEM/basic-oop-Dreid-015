@@ -9,6 +9,8 @@ This is my own work as defined by the University's Academic Misconduct Policy.
 import Rig
 import Hacker
 import Asset
+hacker_1 = Hacker.Hacker('Mario')
+hacker_1.encrypt_assets('poop')
 
 ## Below test is for Data Spike testing
 # hacker_1 = Hacker.Hacker('Mario')

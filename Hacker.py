@@ -25,6 +25,7 @@ class Hacker:
                                    'Hardware Patch': 0}
         self.__trace_level = 0
         self.__exposed = False
+        self.__rig = None
 
     #def __str__(self):
     #    name = str(self.__name)
@@ -38,7 +39,7 @@ class Hacker:
             self.set_inventory('CryptoToken', 1, 'spend')
             created_rig = Rig.Rig(rig_name)
             print(f'{rig_name} ready to hack the planet.')
-            return created_rig
+            self.__rig = created_rig
 
         elif rig_status == True:
             print("Hackers can only have 1 rig")
@@ -96,8 +97,14 @@ class Hacker:
 
                 counter += 1
 
-    def encrypt_assets(self):
+    def encrypt_assets(self, asset):
+        quantity = 0
 
+        if asset not in self.__inventory or asset not in self.__encrypted_assets:
+            print(f"There's no {asset} to encrypt.")
+
+        self.__inventory[asset] -= quantity
+        self.__encrypted_assets[asset] += quantity
 
     # def inv_scan(self):
 
@@ -108,7 +115,9 @@ class Hacker:
     def get_trace_level(self):
         return self.__trace_level
     def get_exposed(self):
-        return self
+        return self.__exposed
+    def get_rig(self):
+        return self.__rig
 
     def set_inventory(self, item, change, spend_or_create):
         if change == True or change == False:   # Done to manage the has_rig entry in the inventory dict
