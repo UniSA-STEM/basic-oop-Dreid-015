@@ -27,22 +27,37 @@ class Hacker:
             self.set_inventory('Rig', True, 'create')
             self.set_inventory('CryptoToken', 1, 'spend')
             created_rig = Rig.Rig(rig_name)
-            print('Rig acquired.')
+            print(f'{rig_name} ready to hack the planet.')
+            return created_rig
 
         elif rig_status == True:
             print("Hackers can only have 1 rig")
-
-        elif inventory['CryptoToken'] > 0:
+        elif inventory['CryptoToken'] == 0:
             print('No CryptoToken, No rig.')
 
-        return created_rig
+    def data_spike(self, source, target):
+        rig_inventory = source.get_storage()
+        damage = source.get_upgrade_level() + 1
+        result = []
 
-    # def data_spike(self, target):
-    #     rig_inventory =
-    #
-    #     if self.__
+        if 'Data Spike' in rig_inventory and rig_inventory['Data Spike'] > 0:
+            source.set_storage('Data Spike', 1, 'spend')
+            target.set_damage(damage)
+            self.set_trace_level(1)
+            result.append(f'Data Spike from {source.get_name()} has done {damage} to {target.get_name()}.\n')
+            result.append(f'{target} has taken {target.get_damage} damage.\n')
 
-    # def extract_assets(self):
+            if target.get_is_broken() == True and rig_inventory['Removable Drive'] > 0:
+                extract = input(f'Would you like to extract unencrypted assets from {source.get_name()}? (y/n)')
+
+                # if extract == 'y':
+                #     self.extract_assets(target)
+
+        elif rig_inventory['Data Spike'] <= 0:
+            result.append('No Data Spike available for attack.\n')
+
+
+    #def extract_assets(self, target):
 
     # def encrypt_assets(self):
     # Ensure to add any encrypted items to the Rig.assets list with the _encrypted suffix
@@ -69,3 +84,7 @@ class Hacker:
 
         elif spend_or_create == 'create':
             self.__inventory[item] += change
+    def set_trace_level(self, amount):
+        self.__trace_level += amount
+        if self.__trace_level >= 5:
+            self.__exposed = True

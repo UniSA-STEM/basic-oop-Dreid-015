@@ -20,6 +20,7 @@ class Rig:
                           'Security Chip': 0,
                           'Hardware Patch': 0}
         self.__upgrade_level = 0
+        self.__max_hp = (self.get_upgrade_level() * 2) + 2
 
     def __str__(self):
         counter = 0
@@ -112,12 +113,14 @@ class Rig:
     def get_storage(self):
         return self.__storage
     def get_upgrade_level(self):
-        return self.__upgrade_level
+        return int(self.__upgrade_level)
+    def get_max_hp(self):
+        return self.__max_hp
 
     def set_damage(self, amount):
             self.__damage += amount
 
-            if self.__damage > (self.__upgrade_level * 2) + 2:
+            if self.__damage > self.get_max_hp():
                 self.__is_broken = True
     def set_upgrade_level(self, change):
         self.__upgrade_level += change
