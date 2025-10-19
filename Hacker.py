@@ -27,8 +27,34 @@ class Hacker:
         self.__exposed = False
         self.__rig = None
 
-    #def __str__(self):
-    #    name = str(self.__name)
+    def __str__(self):
+        name = str(self.__name)
+        rig_name = str(self.__rig.name)
+        trace = str(self.__trace_level)
+        inventory = self.__inventory
+        counter = 0
+        output = f'NAME:{name}\nRIG NAME:{rig_name}\nTRACE:{trace}\nINVENTORY:\n'
+
+        for item in self.__storage:
+
+            if inventory[item] > 0:
+                counter += 1
+
+        if counter > 0:
+            output += '\n'
+            output += f'Stored Assets:\n'
+
+        elif counter == 0:
+            output += f'{name} has no assets.\n'
+
+        for item in inventory:
+
+            if inventory[item] > 0:
+                output += f'{item}: {inventory[item]}\n'
+
+        output += '*********************************'
+
+        return output
 
     def acquire_rig(self, rig_name):
         inventory = self.get_inventory()
