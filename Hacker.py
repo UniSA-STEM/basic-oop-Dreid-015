@@ -51,14 +51,21 @@ class Hacker:
             if target.get_is_broken() == True and rig_inventory['Removable Drive'] > 0:
                 extract = input(f'Would you like to extract unencrypted assets from {source.get_name()}? (y/n)')
 
-                # if extract == 'y':
-                #     self.extract_assets(target)
+                if extract == 'y':
+                    self.extract_assets(target)
 
         elif rig_inventory['Data Spike'] <= 0:
             result.append('No Data Spike available for attack.\n')
 
+    def extract_assets(self, target):
+        target_inv = target.get_inventory()
 
-    #def extract_assets(self, target):
+        for item in target_inv:
+            item_count = target_inv[item]
+            # HAndle encryption with a second dictionary to count it all
+            if item.endswith('_enc'):
+            self.set_inventory(item, item_count, 'create')
+
 
     # def encrypt_assets(self):
     # Ensure to add any encrypted items to the Rig.assets list with the _encrypted suffix

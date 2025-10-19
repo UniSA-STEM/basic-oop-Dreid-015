@@ -14,7 +14,7 @@ class Rig:
         self.__name = name
         self.__damage = 0
         self.__is_broken = False
-        self.__storage = {'CryptoToken': 1,
+        self.__storage = {'CryptoToken': 0,
                           'Data Spike': 2,
                           'Removable Drive': 1,
                           'Security Chip': 0,
