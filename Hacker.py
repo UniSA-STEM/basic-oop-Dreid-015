@@ -18,8 +18,16 @@ class Hacker:
                           'Security Chip': 0,
                           'Hardware Patch': 0,
                           'Rig': False}
+        self.__encrypted_assets = {'CryptoToken': 0,
+                                   'Data Spike': 0,
+                                   'Removable Drive': 0,
+                                   'Security Chip': 0,
+                                   'Hardware Patch': 0}
         self.__trace_level = 0
         self.__exposed = False
+
+    #def __str__(self):
+    #    name = str(self.__name)
 
     def acquire_rig(self, rig_name):
         inventory = self.get_inventory()
@@ -88,11 +96,8 @@ class Hacker:
 
                 counter += 1
 
-    # def encrypt_assets(self):
-    # Ensure to add any encrypted items to the secondary encrypted list in the rig
-    # HAndle encryption with a second dictionary to count it all
+    def encrypt_assets(self):
 
-    # def upgrade_rig(self):
 
     # def inv_scan(self):
 
