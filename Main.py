@@ -10,7 +10,9 @@ import Rig
 import Hacker
 import Asset
 hacker_1 = Hacker.Hacker('Mario')
-hacker_1.encrypt_assets('poop')
+rig_1 = hacker_1.acquire_rig('Peach')
+#hacker_1.encrypt_assets('poop')
+print(hacker_1)
 
 ## Below test is for Data Spike testing
 # hacker_1 = Hacker.Hacker('Mario')

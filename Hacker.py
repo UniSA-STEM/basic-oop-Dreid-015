@@ -7,13 +7,13 @@ Username: reidy015
 This is my own work as defined by the University's Academic Misconduct Policy.
 """
 import random
-
 import Rig
+
 class Hacker:
     def __init__(self, name):
         self.__name = name
         self.__inventory = {'CryptoToken': 1,
-                          'Data Spike': 0,
+                          'Data Spike': 2,
                           'Removable Drive': 0,
                           'Security Chip': 0,
                           'Hardware Patch': 0,
@@ -29,26 +29,19 @@ class Hacker:
 
     def __str__(self):
         name = str(self.__name)
-        rig_name = str(self.__rig.name)
-        trace = str(self.__trace_level)
+        rig_name = str(self.__rig.get_name()) if self.__rig is not None else "No rig in use"
+        trace = int(self.__trace_level)
         inventory = self.__inventory
         counter = 0
         output = f'NAME:{name}\nRIG NAME:{rig_name}\nTRACE:{trace}\nINVENTORY:\n'
 
-        for item in self.__storage:
+        for item in inventory:
 
             if inventory[item] > 0:
                 counter += 1
-
-        if counter > 0:
-            output += '\n'
-            output += f'Stored Assets:\n'
-
-        elif counter == 0:
+        if counter == 0:
             output += f'{name} has no assets.\n'
-
         for item in inventory:
-
             if inventory[item] > 0:
                 output += f'{item}: {inventory[item]}\n'
 
