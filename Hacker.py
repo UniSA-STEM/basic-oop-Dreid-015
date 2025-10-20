@@ -69,8 +69,9 @@ class Hacker:
         rig_inventory = source.get_storage()
         damage = source.get_upgrade_level() + 1
         result = []
+        exposed = self.__exposed
 
-        if 'Data Spike' in rig_inventory and rig_inventory['Data Spike'] > 0:
+        if rig_inventory['Data Spike'] > 0 and exposed == False:
             source.set_storage('Data Spike', 1, 'spend')
             target.set_damage(damage)
             self.set_trace_level(1)
@@ -86,12 +87,15 @@ class Hacker:
 
         elif rig_inventory['Data Spike'] <= 0:
             result.append('No Data Spike available for attack.\n')
+        elif exposed == True:
+            print("You're exposed, you cant do that right now.")
 
     def extract_assets(self, source, target):
         target_inv = target.get_inventory()
         target_item_count = sum(target_inv.values())
         source_avail_inv = source.get_capacity - sum(source.get_inventory().values())
         extractable_assets = {}
+        self.set_trace_level(1)
 
         ## Populating the items with a count to a temporary dictionary created for this method
         for item, quantity in target_inv.items():
@@ -155,13 +159,11 @@ class Hacker:
 
         # Check if item exists in both inventories
         if item not in self.__inventory or item not in rig.get_storage():
-            print(f"Invalid item: {item}")
-            return
+            print(f"{item} not available")
 
         # Check if item is 'Rig' (can't store/retrieve the rig itself)
         if item == 'Rig':
             print("Cannot store or retrieve the Rig item.")
-            return
 
         if direction == 'store':
             # Moving from Hacker inventory to Rig storage
@@ -169,13 +171,11 @@ class Hacker:
             # Check if hacker has enough of the item
             if self.__inventory[item] < quantity:
                 print(f"Not enough {item} in inventory. Available: {self.__inventory[item]}")
-                return
 
             # Check if rig has enough capacity
             current_rig_items = sum(rig.get_storage().values())
             if current_rig_items + quantity > rig.get_capacity():
                 print(f"Not enough capacity in rig. Available slots: {rig.get_capacity() - current_rig_items}")
-                return
 
             # Transfer the item
             self.set_inventory(item, quantity, 'spend')
@@ -188,7 +188,6 @@ class Hacker:
             # Check if rig has enough of the item
             if rig.get_storage()[item] < quantity:
                 print(f"Not enough {item} in rig storage. Available: {rig.get_storage()[item]}")
-                return
 
             # Transfer the item
             rig.set_storage(item, quantity, 'spend')
