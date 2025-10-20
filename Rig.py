@@ -1,6 +1,6 @@
 """
 File: Rig.py
-Description: <A brief description of this Python module.>
+Description: This module handles all of the Rig class code
 Author: Dyllan Reid
 ID: reidy015@mymail.unisa.edu.au
 Username: reidy015
@@ -114,6 +114,7 @@ class Rig:
 
         print(f'{random_asset} has been generated and stored in this rig')
 
+    ## Getters
     def get_name(self):
         return self.__name
     def get_damage(self):
@@ -129,10 +130,11 @@ class Rig:
     def get_capacity(self):
         return self.__capacity
 
+    ##Setters
     def set_damage(self, amount):
             self.__damage += amount
 
-            if self.__damage > self.get_max_hp():
+            if self.__damage >= self.get_max_hp():
                 self.__is_broken = True
     def set_upgrade_level(self, change):
         self.__upgrade_level += change

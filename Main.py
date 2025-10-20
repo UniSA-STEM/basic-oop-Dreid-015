@@ -1,6 +1,6 @@
 """
 File: main.py
-Description: <A brief description of this Python module.>
+Description: This contains all of the created test modules
 Author: Dyllan Reid
 ID: reidy015@mymail.unisa.edu.au
 Username: reidy015
@@ -15,8 +15,8 @@ import Hacker
 def hacker():
     hacker_1 = Hacker.Hacker('Neo')
     print(hacker_1)
-    print(f"Trace Level: {hacker_1.get_trace_level()}")
-    print(f"Exposed: {hacker_1.get_exposed()}")
+    print(f'Trace Level: {hacker_1.get_trace_level()}')
+    print(f'Exposed: {hacker_1.get_exposed()}')
     print()
 
 def multiple_hackers():
@@ -30,7 +30,7 @@ def acquire_rig_success():
     hacker_1 = Hacker.Hacker('Neo')
     hacker_1.acquire_rig('Nebuchadnezzar')
     print(hacker_1)
-    print(f"Has Rig: {hacker_1.get_inventory()['Rig']}")
+    print(f'Has Rig: {hacker_1.get_inventory()['Rig']}')
     print()
 
 def acquire_rig_no_token():

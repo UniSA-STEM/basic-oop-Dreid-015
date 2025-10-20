@@ -1,6 +1,6 @@
 """
 File: Hacker.py
-Description: <A brief description of this Python module.>
+Description: Description: This module handles all of the Hacker class code
 Author: Dyllan Reid
 ID: reidy015@mymail.unisa.edu.au
 Username: reidy015
@@ -97,7 +97,7 @@ class Hacker:
         target_inv = target.get_inventory()
         target_item_count = sum(target_inv.values())
         source_avail_inv = source.get_capacity - sum(source.get_inventory().values())
-        extractable_assets = {}  # Temp dict used to house extractable items to acoid accidental invetory item deletion
+        extractable_assets = {}  # Temp dict used to house extractable items to avoid accidental inventory item deletion
         self.set_trace_level(1)
 
         ## Populating the items with a count to a temporary dictionary created for this method
