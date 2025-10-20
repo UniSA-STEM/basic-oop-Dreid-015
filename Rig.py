@@ -16,7 +16,7 @@ class Rig:
         self.__storage = {'CryptoToken': 0,
                           'Data Spike': 2,
                           'Removable Drive': 1,
-                          'Security Chip': 1,
+                          'Security Chip': 0,
                           'Hardware Patch': 0}
         self.__encrypted_assets = { 'CryptoToken': 0,
                                     'Data Spike': 0,
@@ -35,6 +35,8 @@ class Rig:
         output += f'Condition: {condition}\n'
         output += f'Upgrade Level: {self.__upgrade_level}\n'
 
+        ## Below for loop manages outputting the rigs storage for the string method. Checks if anything exists
+        ## Outputs all items with a value
         for item in self.__storage:
 
             if self.__storage[item] > 0:
@@ -57,18 +59,18 @@ class Rig:
         return output
 
     def condition(self):
-        output = ''
+        output = ''  # Initialising this as blank a layer before it's needed
         max_hp = (self.get_upgrade_level() * 2) + 2
         level = self.get_upgrade_level()
 
         if self.get_damage() == 0:
-            output += f'Pristine'
+            output += f'Pristine\n'
 
         elif self.get_damage() > 0 and self.get_damage() < max_hp:
-            output += f'Damaged'
+            output += f'Damaged\n'
 
         else:
-            output += f'Broken'
+            output += f'Broken\n'
 
         output += f' (Level {level})'
         return output
@@ -76,11 +78,11 @@ class Rig:
     def repair(self, hacker):
         token_in_storage = self.get_storage()
         token_in_inv = hacker.get_inventory()
-        token_in_inv = hacker.get_inventory()
 
         if self.get_damage() == 0:
             print('No repair required')
 
+        ## This is the logic used throughout when checking both inventory and storage
         elif 'CryptoToken' in token_in_storage and token_in_storage['CryptoToken'] > 0:
             token_in_storage['CryptoToken'] -= 1
             self.__damage = 0
@@ -93,6 +95,7 @@ class Rig:
         patch_in_storage = self.get_storage()
         patch_in_inv = hacker.get_inventory()
 
+        ## SAme logic as used throughout for checking both inventory and storage
         if 'Hardware Patch' in patch_in_storage and patch_in_storage['Hardware Patch'] > 0:
             self.set_storage('Hardware Patch', 1, 'spend')
             self.set_upgrade_level(1)
@@ -102,8 +105,9 @@ class Rig:
             self.set_upgrade_level(1)
 
     def generate_asset(self):
+        ## Was having issues trying to directly reference the storage so hardcoded. Not the best option
         asset_nums = ['CryptoToken', 'Data Spike', 'Removable Drive', 'Security Chip', 'Hardware Patch']
-        random_num = random.randint(1, 4)
+        random_num = random.randint(0, 4)
         random_asset = asset_nums[random_num]
 
         self.__storage[random_asset] += 1
