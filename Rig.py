@@ -75,7 +75,8 @@ class Rig:
 
     def repair(self, hacker):
         token_in_storage = self.get_storage()
-        token_in_inv = hacker.get_inventory(hacker)
+        token_in_inv = hacker.get_inventory()
+        token_in_inv = hacker.get_inventory()
 
         if self.get_damage() == 0:
             print('No repair required')
@@ -90,7 +91,7 @@ class Rig:
 
     def upgrade(self, hacker):
         patch_in_storage = self.get_storage()
-        patch_in_inv = hacker.get_inventory(hacker)
+        patch_in_inv = hacker.get_inventory()
 
         if 'Hardware Patch' in patch_in_storage and patch_in_storage['Hardware Patch'] > 0:
             self.set_storage('Hardware Patch', 1, 'spend')

@@ -25,7 +25,7 @@ class Hacker:
                                    'Hardware Patch': 0}
         self.__trace_level = 0
         self.__exposed = False
-        self.__rig = None
+        self.__rig = None # This can be used to clean up double up of Rig in inventory dict.
 
     def __str__(self):
         name = str(self.__name)
@@ -33,8 +33,9 @@ class Hacker:
         trace = int(self.__trace_level)
         inventory = self.__inventory
         counter = 0
-        output = f'NAME:{name}\nRIG NAME:{rig_name}\nTRACE:{trace}\nINVENTORY:\n'
+        output = f'NAME:{name}\nRIG NAME:{rig_name}\nTRACE:{trace}\n--INVENTORY--\n'
 
+        ## First for loop here is used to check if any items are in the inventory. Second is to output them
         for item in inventory:
 
             if inventory[item] > 0:
@@ -52,16 +53,16 @@ class Hacker:
     def acquire_rig(self, rig_name):
         inventory = self.get_inventory()
         rig_status = inventory['Rig']
-
+        ##Below can 100% be cleand up to mesh with the rig attribute in Hacker. Not high on the list atm.
         if rig_status == False and inventory['CryptoToken'] > 0:
             self.set_inventory('Rig', True, 'create')
             self.set_inventory('CryptoToken', 1, 'spend')
             created_rig = Rig.Rig(rig_name)
-            print(f'{rig_name} ready to hack the planet.')
+            print(f'{rig_name} ready to hack the planet.\n')
             self.__rig = created_rig
 
         elif rig_status == True:
-            print("Hackers can only have 1 rig")
+            print('Hackers can only have 1 rig')  #At this stage 1 rig per person. Expand this later. Major restructure of logic needed
         elif inventory['CryptoToken'] == 0:
             print('No CryptoToken, No rig.')
 
@@ -69,7 +70,7 @@ class Hacker:
         source = self.get_rig()
         rig_inventory = source.get_storage()
         damage = source.get_upgrade_level() + 1
-        result = []
+        result = []  # This is used to amalgate combat output strings.
         exposed = self.__exposed
 
         if rig_inventory['Data Spike'] > 0 and exposed == False:
@@ -96,7 +97,7 @@ class Hacker:
         target_inv = target.get_inventory()
         target_item_count = sum(target_inv.values())
         source_avail_inv = source.get_capacity - sum(source.get_inventory().values())
-        extractable_assets = {}
+        extractable_assets = {}  # Temp dict used to house extractable items to acoid accidental invetory item deletion
         self.set_trace_level(1)
 
         ## Populating the items with a count to a temporary dictionary created for this method
@@ -112,7 +113,7 @@ class Hacker:
             ## Experimenting with random.choice here to see how it works. Core logic should be easy otherwise
             while counter < target_item_count:
                 selected_item = random.choice(list(extractable_assets.keys()))
-
+                ## Below logic is just to move the numbers around in the relevant rig inventories
                 target.set_storage(selected_item, 1, 'spend')
                 source.set_storage(selected_item, 1, 'create')
                 extractable_assets[selected_item] -= 1
@@ -124,7 +125,7 @@ class Hacker:
 
     def encrypt_assets(self, asset):
         rig = self.get_rig()
-        has_chip = rig.get_storage()['Hardware Patch'] > 0 or self.get_inventory()['Hardware Patch'] > 0
+        has_chip = rig.get_storage()['Security Chip'] > 0 or self.get_inventory()['Security Chip'] > 0
 
         if asset not in self.get_inventory() or asset not in rig.get_storage():
             print(f"There's no {asset} to encrypt.")
@@ -132,13 +133,14 @@ class Hacker:
         elif has_chip == False:
             print('No Security Chip, no encrypt')
 
+        ## Below 2 elif blocks simply handle adjustment in either hacker inventory, or rig storage
         elif asset in rig.get_storage() and has_chip == True:
-                rig.set_storage('Hardware Patch', 1, 'spend')
-                rig.get_storage[asset] -= 1
-                rig.set_encrypted_storage(asset, 1, 'create')
+            rig.set_storage('Security Chip', 1, 'spend')
+            rig.get_storage()[asset] -= 1
+            rig.set_encrypted_storage(asset, 1, 'create')
 
         elif asset in self.__inventory and has_chip == True:
-            self.set_inventory('Hardware Patch', 1, 'spend')
+            self.set_inventory('Security Chip', 1, 'spend')
             self.__inventory[asset] -= 1
             self.__encrypted_assets[asset] += 1
 
@@ -150,48 +152,48 @@ class Hacker:
             print(f"You have {count} {item}'s. They have been removed")
             self.set_inventory(item, count, 'spend')
 
-    def store_retrieve(self, item, quantity, direction):
+    def store_retrieve(self, item, quantity, direction):  # store is for Hacker -> Rig. Retrieve is vice versa
 
         rig = self.get_rig()
 
-        # Check if hacker has a rig
+        ## Check if hacker has a rig
         if rig is None:
             print("No rig available. Acquire a rig first.")
             return
 
-        # Check if item exists in both inventories
+        ## Check if item exists in both inventories. Shouldn't have this issue, but just incase
         if item not in self.__inventory or item not in rig.get_storage():
             print(f"{item} not available")
 
-        # Check if item is 'Rig' (can't store/retrieve the rig itself)
+        ## Check if item is 'Rig' (can't store/retrieve the rig itself). Maybe in future?
         if item == 'Rig':
             print("Cannot store or retrieve the Rig item.")
 
         if direction == 'store':
-            # Moving from Hacker inventory to Rig storage
+            ## Moving from Hacker inventory to Rig storage
 
-            # Check if hacker has enough of the item
+            ## Check if hacker has enough of the item
             if self.__inventory[item] < quantity:
                 print(f"Not enough {item} in inventory. Available: {self.__inventory[item]}")
 
-            # Check if rig has enough capacity
+            ## Check if rig has enough capacity
             current_rig_items = sum(rig.get_storage().values())
             if current_rig_items + quantity > rig.get_capacity():
                 print(f"Not enough capacity in rig. Available slots: {rig.get_capacity() - current_rig_items}")
 
-            # Transfer the item
+            ## Transfer the item
             self.set_inventory(item, quantity, 'spend')
             rig.set_storage(item, quantity, 'create')
             print(f"Stored {quantity} {item}(s) in {rig.get_name()}")
 
         elif direction == 'retrieve':
-            # Moving from Rig storage to Hacker inventory
+            ## Moving from Rig storage to Hacker inventory
 
-            # Check if rig has enough of the item
+            ## Check if rig has enough of the item
             if rig.get_storage()[item] < quantity:
                 print(f"Not enough {item} in rig storage. Available: {rig.get_storage()[item]}")
 
-            # Transfer the item
+            ## Transfer the item
             rig.set_storage(item, quantity, 'spend')
             self.set_inventory(item, quantity, 'create')
             print(f"Retrieved {quantity} {item}(s) from {rig.get_name()}")
@@ -199,6 +201,7 @@ class Hacker:
         else:
             print("Invalid direction. Use 'store' or 'retrieve'.")
 
+    ## Getters
     def get_name(self):
         return self.__name
     def get_inventory(self):
@@ -210,6 +213,7 @@ class Hacker:
     def get_rig(self):
         return self.__rig
 
+    ## Setters
     def set_inventory(self, item, change, spend_or_create):
         if change == True or change == False:   # Done to manage the has_rig entry in the inventory dict
             self.__inventory[item] = change

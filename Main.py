@@ -10,6 +10,7 @@ import Hacker
 ## Handled rig creation via the Hacker class so only need to import Hacker for the test methods
 ## Honestly was kind of lost as to what to do with Asset as I could handle it all in the other classes
 ## Certainly could do things cleaner and nicer by using it, but was too deep for restructuring by that point
+## NOTE: the term inventory is used to denote items on the hacker. Storage for the rig
 
 def hacker():
     hacker_1 = Hacker.Hacker('Neo')
