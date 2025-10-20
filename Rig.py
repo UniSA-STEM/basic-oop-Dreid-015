@@ -16,7 +16,7 @@ class Rig:
         self.__storage = {'CryptoToken': 0,
                           'Data Spike': 2,
                           'Removable Drive': 1,
-                          'Security Chip': 0,
+                          'Security Chip': 1,
                           'Hardware Patch': 0}
         self.__encrypted_assets = { 'CryptoToken': 0,
                                     'Data Spike': 0,
@@ -137,3 +137,9 @@ class Rig:
 
         elif spend_or_create == 'create':
             self.__storage[item] += change
+    def set_encrypted_storage(self, item, change, spend_or_create):
+        if spend_or_create == 'spend':
+            self.__encrypted_assets[item] -= change
+
+        elif spend_or_create == 'create':
+            self.__encrypted_assets[item] += change

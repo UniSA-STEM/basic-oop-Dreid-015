@@ -65,7 +65,8 @@ class Hacker:
         elif inventory['CryptoToken'] == 0:
             print('No CryptoToken, No rig.')
 
-    def data_spike(self, source, target):
+    def data_spike(self, target):
+        source = self.get_rig()
         rig_inventory = source.get_storage()
         damage = source.get_upgrade_level() + 1
         result = []
@@ -90,7 +91,8 @@ class Hacker:
         elif exposed == True:
             print("You're exposed, you cant do that right now.")
 
-    def extract_assets(self, source, target):
+    def extract_assets(self, target):
+        source = self.get_rig()
         target_inv = target.get_inventory()
         target_item_count = sum(target_inv.values())
         source_avail_inv = source.get_capacity - sum(source.get_inventory().values())
@@ -132,8 +134,8 @@ class Hacker:
 
         elif asset in rig.get_storage() and has_chip == True:
                 rig.set_storage('Hardware Patch', 1, 'spend')
-                rig.__inventory[asset] -= 1
-                rig.__encrypted_assets[asset] += 1
+                rig.get_storage[asset] -= 1
+                rig.set_encrypted_storage(asset, 1, 'create')
 
         elif asset in self.__inventory and has_chip == True:
             self.set_inventory('Hardware Patch', 1, 'spend')
