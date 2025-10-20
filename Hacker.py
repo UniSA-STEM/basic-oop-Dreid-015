@@ -117,15 +117,86 @@ class Hacker:
                 counter += 1
 
     def encrypt_assets(self, asset):
-        quantity = 0
+        rig = self.get_rig()
+        has_chip = rig.get_storage()['Hardware Patch'] > 0 or self.get_inventory()['Hardware Patch'] > 0
 
-        if asset not in self.__inventory or asset not in self.__encrypted_assets:
+        if asset not in self.get_inventory() or asset not in rig.get_storage():
             print(f"There's no {asset} to encrypt.")
 
-        self.__inventory[asset] -= quantity
-        self.__encrypted_assets[asset] += quantity
+        elif has_chip == False:
+            print('No Security Chip, no encrypt')
 
-    # def inv_scan(self):
+        elif asset in rig.get_storage() and has_chip == True:
+                rig.set_storage('Hardware Patch', 1, 'spend')
+                rig.__inventory[asset] -= 1
+                rig.__encrypted_assets[asset] += 1
+
+        elif asset in self.__inventory and has_chip == True:
+            self.set_inventory('Hardware Patch', 1, 'spend')
+            self.__inventory[asset] -= 1
+            self.__encrypted_assets[asset] += 1
+
+    def inv_scan(self, item):
+        inventory = self.get_inventory()
+        count = self.__inventory[item]
+
+        if item in inventory:
+            print(f"You have {count} {item}'s. They have been removed")
+            self.set_inventory(item, count, 'spend')
+
+    def store_retrieve(self, item, quantity, direction):
+
+        rig = self.get_rig()
+
+        # Check if hacker has a rig
+        if rig is None:
+            print("No rig available. Acquire a rig first.")
+            return
+
+        # Check if item exists in both inventories
+        if item not in self.__inventory or item not in rig.get_storage():
+            print(f"Invalid item: {item}")
+            return
+
+        # Check if item is 'Rig' (can't store/retrieve the rig itself)
+        if item == 'Rig':
+            print("Cannot store or retrieve the Rig item.")
+            return
+
+        if direction == 'store':
+            # Moving from Hacker inventory to Rig storage
+
+            # Check if hacker has enough of the item
+            if self.__inventory[item] < quantity:
+                print(f"Not enough {item} in inventory. Available: {self.__inventory[item]}")
+                return
+
+            # Check if rig has enough capacity
+            current_rig_items = sum(rig.get_storage().values())
+            if current_rig_items + quantity > rig.get_capacity():
+                print(f"Not enough capacity in rig. Available slots: {rig.get_capacity() - current_rig_items}")
+                return
+
+            # Transfer the item
+            self.set_inventory(item, quantity, 'spend')
+            rig.set_storage(item, quantity, 'create')
+            print(f"Stored {quantity} {item}(s) in {rig.get_name()}")
+
+        elif direction == 'retrieve':
+            # Moving from Rig storage to Hacker inventory
+
+            # Check if rig has enough of the item
+            if rig.get_storage()[item] < quantity:
+                print(f"Not enough {item} in rig storage. Available: {rig.get_storage()[item]}")
+                return
+
+            # Transfer the item
+            rig.set_storage(item, quantity, 'spend')
+            self.set_inventory(item, quantity, 'create')
+            print(f"Retrieved {quantity} {item}(s) from {rig.get_name()}")
+
+        else:
+            print("Invalid direction. Use 'store' or 'retrieve'.")
 
     def get_name(self):
         return self.__name
